@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="row ">
+    <div class="col-md-12">
+      <h4 class="my-4 text-center">Teachers and Assigned Courses</h4>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Course Name</th>
+            <th>Course Code</th>
+            <th>Teacher Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% courses.forEach(course => { %>
+          <tr>
+            <td><%= course.name %></td>
+            <td><%= course.code %></td>
+            <td><%= course.teacher ?. email || 'N/A' %></td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

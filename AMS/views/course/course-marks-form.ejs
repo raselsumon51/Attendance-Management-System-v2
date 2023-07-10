@@ -1,0 +1,48 @@
+<div class="container px-5">
+    <h1>Set Marks</h1>
+    <form action="/course/set-marks" method="post">
+        <div class="mb-3">
+            <label for="marks1" class="form-label">95-100:</label>
+            <input type="number" class="form-control" name="marks_95_100" id="marks_95_100" min="0" required
+                placeholder="Enter marks for 95-100">
+        </div>
+        <div class="mb-3">
+            <label for="marks2" class="form-label">90-94:</label>
+            <input type="number" class="form-control" name="marks_90_94" id="marks2" min="0" required
+                placeholder="Enter marks for 90-94">
+        </div>
+        <div class="mb-3">
+            <label for="marks3" class="form-label">85-89:</label>
+            <input type="number" class="form-control" name="marks_85_89" id="marks3" min="0" required
+                placeholder="Enter marks for 85-89">
+        </div>
+        <div class="mb-3">
+            <label for="marks4" class="form-label">80-84:</label>
+            <input type="number" class="form-control" name="marks_80_84" id="marks80_84" min="0" required
+                placeholder="Enter marks for 80-84">
+        </div>
+        <div class="mb-3">
+            <label for="marks5" class="form-label">75-79:</label>
+            <input type="number" class="form-control" name="marks_75_79" id="marks_75_79" min="0" required
+                placeholder="Enter marks for 75-79">
+        </div>
+        <div class="mb-3">
+            <label for="marks6" class="form-label">70-74:</label>
+            <input type="number" class="form-control" name="marks_70_74" id="marks_70_74" min="0" required
+                placeholder="Enter marks for 70-74">
+        </div>
+        <div class="mb-3">
+            <label for="marks7" class="form-label">65-69:</label>
+            <input type="number" class="form-control" name="marks_65_69" id="marks_65_69" min="0" required
+                placeholder="Enter marks for 65-69">
+        </div>
+        <div class="mb-3">
+            <label for="marks8" class="form-label">60-64:</label>
+            <input type="number" class="form-control" name="marks_60_64" id="marks_60_64" min="0" required
+                placeholder="Enter marks for 60-64">
+        </div>
+        <!-- Hidden field -->
+        <input type="hidden" name="course_id" value="<%= course_id %>">
+        <button type="submit" class="btn btn-primary">Set</button>
+    </form>
+</div>

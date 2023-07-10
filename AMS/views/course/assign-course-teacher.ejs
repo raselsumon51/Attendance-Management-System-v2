@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card p-4">
+        <form action="/course/assign-course-teacher" method="post">
+          <h3 class="mb-4 text-center">Add Course Teacher</h3>
+
+          <div class="mb-3">
+            <label for="courses" class="form-label">Choose a course:</label>
+            <select name="course_id" class="form-select">
+              <% courses.forEach(course => { %>
+              <option value=<%= course._id %>>
+                <%= course.name %>
+              </option>
+              <% }); %>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="teachers" class="form-label">Choose a teacher:</label>
+            <select name="teacher_id" class="form-select">
+              <% teachers.forEach(teacher => { %>
+              <option value=<%= teacher._id %>>
+                <%= teacher.email %>
+              </option>
+              <% }); %>
+            </select>
+          </div>
+
+          <button class="btn btn-info px-4" type="submit">Add</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

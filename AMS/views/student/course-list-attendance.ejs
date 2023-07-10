@@ -1,0 +1,24 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-8">
+      <table class="table table-striped text-center">
+        <thead>
+          <tr>
+            <td class="text-center fs-3 mb-2">Course Name</td>
+          </tr>
+        </thead>
+        <tbody>
+          <% courses.forEach(course=> { %>
+            <tr>
+              <td>
+                <a href="/attendance/course-id/<%= course._id %>" class="btn btn-link" style="text-decoration: none;">
+                  <%= course.name %>
+                </a>
+              </td>
+            </tr>
+            <% }); %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
