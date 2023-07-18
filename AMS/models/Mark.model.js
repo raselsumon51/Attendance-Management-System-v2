@@ -9,9 +9,10 @@ const marksSchema = new mongoose.Schema({
     marks_70_74: { type: Number, required: true },
     marks_65_69: { type: Number, required: true },
     marks_60_64: { type: Number, required: true },
-    course_id: { type: String, required: true }
+    course_id: { type: String, required: true },
+    date: { type: Date, default: Date.now }
 });
 
-const Marks = mongoose.model('Marks', marksSchema);
+const Mark = mongoose.model('Marks', marksSchema);
 
-module.exports = Marks;
+module.exports = Mark;

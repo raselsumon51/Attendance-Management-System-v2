@@ -8,8 +8,8 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 
 
-router.get('/course-id/:course_id', teacherAuthMiddleware,showCourseAttendance);
-router.get('/all-courses',teacherAuthMiddleware, showAllCourses);
+router.get('/course-id/:course_id/:dashboard', teacherAuthMiddleware,showCourseAttendance);
+router.get('/all-courses/:dashboard', showAllCourses);
 
 // Route: /teacher/take
 router.get('/select-course', teacherAuthMiddleware,takeAttendance);

@@ -1,5 +1,5 @@
 const express = require('express');
-const { showCourses, addTeacher, getAllCourses, getCoursesAndTeachers, createCourse, createNewCourse, addCourseTeacher, teachersCourses, getCourseNames, getMarksForm, setMarks } = require('../controllers/courseController');
+const { showCourses, addTeacher, getAllCourses, getCoursesAndTeachers, createCourse, createNewCourse, addCourseTeacher, teachersCourses, getCourseNames, getMarksForm, setMarks, uploadCourses } = require('../controllers/courseController');
 const teacherAuthMiddleware = require('../middlewares/teacherAuthMiddleware');
 const adminAuthMiddleware = require('../middlewares/adminAuthMiddleware');
 const studentAuthMiddleware = require('../middlewares/studentAuthMiddleware');
@@ -11,12 +11,13 @@ const router = express.Router();
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 
-router.get('/', teacherAuthMiddleware, showCourses);
+router.get('/', showCourses);
 router.get('/all', studentAuthMiddleware,getAllCourses);
 router.get('/courses-associated-with-teachers', adminAuthMiddleware, getCoursesAndTeachers);
 
 router.get('/add', adminAuthMiddleware, createCourse);
-router.post('/add', adminAuthMiddleware,createNewCourse);
+router.post('/add', adminAuthMiddleware, createNewCourse);
+router.post('/upload', adminAuthMiddleware, uploadCourses);
 
 router.get('/assign-course-teacher', adminAuthMiddleware, addCourseTeacher);
 router.post('/assign-course-teacher', adminAuthMiddleware, addTeacher);

@@ -1,7 +1,13 @@
 const { Course1, getAllCourse } = require('../models/Course1.model');
 const Teacher1 = require('../models/Teacher1.model');
 const Enrollment = require('../models/Enrollment.model');
-const Marks = require('../models/Marks.model');
+const Marks = require('../models/Mark.model');
+const xlsx = require('xlsx');
+const path = require('path');
+const fileUpload = require('express-fileupload');
+const express = require('express');
+const app = express();
+app.use(fileUpload());
 
 
 
@@ -60,7 +66,7 @@ exports.getCoursesAndTeachers = async (req, res) => {
             layout: './layouts/admin-dashboard-layout'
         });
     }
-       catch (error) {
+    catch (error) {
         console.log(error);
     }
 };
@@ -125,7 +131,7 @@ exports.getCourseNames = async (req, res) => {
     try {
         if (!req.session.teacher_email) {
             res.send("Session expired");
-             res.redirect('/teacher/login');
+            res.redirect('/teacher/login');
         } else {
             courses = await Course1.find({ teacher: req.session.teacher_id });
             if (courses.length === 0) {
@@ -156,7 +162,7 @@ exports.getCourseNames = async (req, res) => {
 
 
 exports.getMarksForm = async (req, res) => {
-   // console.log(req.body);
+    // console.log(req.body);
     try {
         if (!req.session.teacher_email) {
             res.send("Session expired");
@@ -164,12 +170,12 @@ exports.getMarksForm = async (req, res) => {
         }
         else {
             res.render('course/course-marks-form', {
-                    teacher_id: req.session.teacher_id,
-                    course_id: req.body.course_id,
-                    layout: './layouts/teacher-dashboard-layout'
-                });
-            }
-        
+                teacher_id: req.session.teacher_id,
+                course_id: req.body.course_id,
+                layout: './layouts/teacher-dashboard-layout'
+            });
+        }
+
     } catch (error) {
         console.log(error);
     }
@@ -189,3 +195,27 @@ exports.setMarks = async (req, res) => {
     }
 };
 
+exports.uploadCourses = async (req, res) => {
+    try {
+        const file = req.files.course_file;
+        const filePath = path.join(__dirname, file.name);
+
+        file.mv(filePath, async (error) => {
+            if (error) {
+                return res.status(500).send('Error uploading file');
+            }
+
+            const workbook = xlsx.readFile(filePath);
+            const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+            const courses = xlsx.utils.sheet_to_json(worksheet);
+
+            for (const course of courses) {
+                const newCourse = new Course1({ name: course.course_name, code: course.course_code }); // Set the default password value
+                const savedCourse = await newCourse.save();
+            }
+        });
+    }
+    catch (err) {
+        console.error(err);
+    }
+};

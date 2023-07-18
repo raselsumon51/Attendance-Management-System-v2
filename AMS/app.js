@@ -49,6 +49,12 @@ app.use(function (req, res, next) {
     next();
 });
 
+// const logSessionData = (req, res, next) => {
+//     console.log('Session Data:', req.session);
+//     next(); // Call next() to pass control to the next middleware
+// };
+
+// app.use(logSessionData);
 
 // Routes
 app.use('/admin', adminRoutes);
@@ -57,13 +63,18 @@ app.use('/teacher', teacherRoutes);
 app.use('/attendance', attendanceRoutes);
 app.use('/student', studentRoutes);
 
-app.get('/', function(req, res) {
-    res.render('Homepage/homePage.ejs',{layout:false});
+app.get('/', function (req, res) {
+    res.render('Homepage/homePage.ejs', { layout: false });
 });
+
+
 
 // Database connection
 mongoose.set('strictQuery', false);
 mongoose.connect('mongodb://127.0.0.1:27017/attendance');
+
+
+
 
 // Start the server
 app.listen(port, () => {

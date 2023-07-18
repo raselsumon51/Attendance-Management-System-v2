@@ -21,7 +21,7 @@
       </td>
       <td class="text-center">
         <% if (isNaN(result.count) || isNaN(total_class) || total_class===0) { %>
-       0
+        0
         <% } else { %>
         <%= ((result.count / total_class) * 100).toFixed(2) %> %
         <% } %>
@@ -38,21 +38,21 @@
 <% if (isNaN(percentage)) { %>
 0
 <% } else if (percentage>= 95) { %>
-8
+<%= latestMark[0].marks_95_100 %>
 <% } else if (percentage>= 90) { %>
-7
+<%= latestMark[0].marks_90_94 %>
 <% } else if (percentage>= 85) { %>
-6
+<%= latestMark[0].marks_85_89 %>
 <% } else if (percentage>= 80) { %>
-5
+<%= latestMark[0].marks_80_84 %>
 <% } else if (percentage>= 75) { %>
-4
+<%= latestMark[0].marks_75_79 %>
 <% } else if (percentage>= 70) { %>
-3
+<%= latestMark[0].marks_70_74 %>
 <% } else if (percentage>= 65) { %>
-2
+<%= latestMark[0].marks_65_69 %>
 <% } else if (percentage>= 60) { %>
-1
+<%= latestMark[0].marks_60_64 %>
 <% } else { %>
 0
 <% } %>

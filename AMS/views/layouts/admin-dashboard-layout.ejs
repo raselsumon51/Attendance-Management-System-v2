@@ -11,7 +11,7 @@
       width: 100%;
       height: 100vh;
       box-sizing: border-box;
-      overflow: hidden;
+      overflow: auto;
       background-color: white;
     }
 
@@ -38,8 +38,8 @@
     .full-height {
       display: flex;
       flex-direction: column;
-      height: 100vh;
-      overflow: hidden;
+     min-height: 100vh;
+     flex-grow: 1;
     }
   </style>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -63,7 +63,7 @@
       <div class="col-md-3 p-md-0 full-height" style="background-color: #222D32;">
         <ul class="mb-0 list-unstyled striped-list">
           <li class="text-lg-right">
-            <a href="/teacher/add" class="text-decoration-none text-white">Add Teacher</a>
+         <a href="/teacher/add" class="text-decoration-none text-white">Add Teacher</a>
           </li>
           <li class="text-lg-right ">
             <a href="/course/add" class="text-decoration-none text-white">Add Course</a>
@@ -91,6 +91,8 @@
       </div>
     </div>
   </div>
+      <script src="https://kit.fontawesome.com/c718b61c94.js" crossorigin="anonymous"></script>
+
 </body>
 
 </html>
@@ -99,84 +101,3 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-<!-- <!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,900&display=swap" rel="styleshee">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" href="/css/student_layout.css">
-  <title>Teacher Page</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
-  <style>
-    thead tr th {
-      font-size: 19px;
-    }
-
-    tbody tr td a {
-      color: black;
-      text-decoration: none;
-    }
-
-    tbody tr td a:hover {
-      color: red;
-      text-decoration: none;
-    }
-  </style>
-</head>
-
-<body>
-  <div class="container">
-    <div class="row header-top bg-dark">
-      <div class="col-lg-2">
-        <div class="logo text-white">
-          <h2><i>AMS</i></h2>
-        </div>
-      </div>
-      <div class="col-lg-10 d-flex justify-content-end align-items-center ">
-        <div class="text-white menu">
-          <ul>
-            <li class="text-lg-right text-white" style="list-style: none;"><a href="/teacher/add">Add Teacher</a></li>
-            <li class="text-lg-right text-white" style="list-style: none;"><a href="/course/add">Add Course</a></li>
-            <li class="text-lg-right text-white" style="list-style: none;"><a href="/course/courses-associated-with-teachers">Courses and Teachers</a></li>
-            <li class="text-lg-right text-white" style="list-style: none;"><a href="/teacher/">Teachers</a></li>
-            <li class="text-lg-right text-white" style="list-style: none;"><a href="/course/assign-course-teacher">Assign Teacher to A Course</a></li>
-          </ul>
-        </div>
-        <div class="logout">
-          <h6 class="text-end"><a class="btn btn-danger" href="/teacher/logout">Logout</a></h6>
-        </div>
-      </div>
-    </div>
-    <div class="row p-2 d-flex justify-content-center text-center" style="background-color: darkgray;">
-      <div class="dashboard-text">
-        <h4>Teacher Dashboard</h4>
-      </div>
-    </div>
-  </div>
-
-  <div class="container my-5">
-    <div class="row p-2 d-flex justify-content-center card">
-      <div class="col-12">
-        <%- body %>
-      </div>
-    </div>
-    </div>
-</body>
-
-</html> -->

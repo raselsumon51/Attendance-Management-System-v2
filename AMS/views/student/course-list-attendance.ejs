@@ -11,7 +11,7 @@
           <% courses.forEach(course=> { %>
             <tr>
               <td>
-                <a href="/attendance/course-id/<%= course._id %>" class="btn btn-link" style="text-decoration: none;">
+                <a href="/attendance/course-id/<%= course._id %>/<%= dashboard %>" class="btn btn-link" style="text-decoration: none;">
                   <%= course.name %>
                 </a>
               </td>

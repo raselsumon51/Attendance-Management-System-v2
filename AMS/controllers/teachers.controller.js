@@ -42,8 +42,8 @@ exports.saveUpdatedTeacher = async (req, res) => {
 };
 
 exports.createTeacher = (req, res) => {
+   // console.log(req.session.username);
     res.render('teacher/addTeacher', {
-        page: "createTeacher",
         layout: './layouts/admin-dashboard-layout'
     });
 };
@@ -55,12 +55,15 @@ exports.loginForm = (req, res) => {
 };
 
 exports.logout = (req, res) => {
-    req.session.destroy((err) => {
+    req.session.teacher_email = null;
+    req.session.teacher_id = null;
+    req.session.save((err) => {
         if (err) {
-            console.log(err);
+            console.log('Error in log out', err);
         } else {
-            res.redirect('/teacher/login');
+            console.log('Log out successful');
         }
+        res.redirect('/'); // Redirect to the desired location after destroying the session
     });
 };
 
@@ -72,6 +75,7 @@ exports.login = async (req, res) => {
         if (teacher.length > 0) {
             req.session.teacher_email = email;
             req.session.teacher_id = teacher[0]._id;
+            req.session.user = 'teacher';
             res.redirect('/teacher/dashboard');
         } else {
             res.send("Invalid User or You are not a Teacher!");
@@ -82,6 +86,7 @@ exports.login = async (req, res) => {
 };
 
 exports.dashboard = (req, res) => {
+    res.set('X-Requested-By', 'Teacher');
     if (!req.session.teacher_email) {
         res.redirect('/teacher/login');
     }
@@ -118,10 +123,10 @@ exports.createNewTeacher = async (req, res) => {
 exports.allTeachers = async (req, res) => {
     try {
         const teachers = await Teacher1.find();
-            res.render('teacher/allTeachers', {
-                teachers,
-                layout: './layouts/admin-dashboard-layout'
-            });
+        res.render('teacher/allTeachers', {
+            teachers,
+            layout: './layouts/admin-dashboard-layout'
+        });
     } catch (error) {
         console.log(error);
     }
@@ -133,7 +138,7 @@ exports.uploadTeacherEmails = (req, res) => {
     const file = req.files.teacher_file;
     const filePath = path.join(__dirname, file.name);
 
-    file.mv(filePath, (error) => {
+    file.mv(filePath, async (error) => {
         if (error) {
             return res.status(500).send('Error uploading file');
         }
@@ -143,11 +148,18 @@ exports.uploadTeacherEmails = (req, res) => {
         const data = xlsx.utils.sheet_to_json(worksheet);
 
         const emailAddresses = data.map((row) => row.teachers_email);
-        console.log(emailAddresses)
+        //console.log(emailAddresses)
 
-        // Perform further processing or database operations with the email addresses
+        for (const email of emailAddresses) {
+            try {
+                const teacher = new Teacher1({ email, password: "123456" }); // Set the default password value
+                const savedTeacher = await teacher.save();
+                console.log(`Teacher saved with email ${savedTeacher.email}`);
+            } catch (error) {
+                console.error(`Error saving teacher with email ${email}:`, error);
+            }
+        }
 
-        // Redirect or send a response
-        res.redirect('/teacher/list');
+
     });
 }

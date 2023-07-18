@@ -21,15 +21,15 @@ exports.getUser= async (req, res) => {
 //     }
 // };
 
-exports.logoutAdmin = (req, res) => {
-    req.session.destroy((err) => {
-        if (err) {
-            console.log(err);
-        } else {
-            res.redirect('/admin/login');
-        }
-    });
-};
+// exports.logoutAdmin = (req, res) => {
+//     req.session.destroy((err) => {
+//         if (err) {
+//             console.log(err);
+//         } else {
+//             res.redirect('/admin/login');
+//         }
+//     });
+// };
 
 exports.getAdminLoginForm = (req, res) => {
     res.render('admin/loginForm', {
@@ -52,6 +52,21 @@ exports.loginAdmin = async (req, res) => {
     }
 };
 
+// exports.loginAdmin = async (req, res) => {
+//     try {
+//         let { email, pswd } = req.body;
+//         const user = await User.find({ email: email, password: pswd });
+//         if (user.length != 0 && user[0].role == "admin") {
+//             req.session.username = email;
+//             res.redirect('/admin/dashboard');
+//         } else {
+//             res.send("Invalid User or You are not an Admin!");
+//         }
+//     } catch (error) {
+//         console.log(error);
+//     }
+// };
+
 
 exports.getAdminDashboard = (req, res) => {
     if (!req.session.username) {
@@ -66,12 +81,15 @@ exports.getAdminDashboard = (req, res) => {
 };
 
 exports.logoutAdmin = (req, res) => {
-    req.session.destroy((err) => {
+
+    req.session.username = null;
+    req.session.save((err) => {
         if (err) {
-            console.log(err);
+            console.log('Error in log out', err);
         } else {
-            res.redirect('/admin/login');
+            console.log('Log out successful');
         }
+        res.redirect('/'); // Redirect to the desired location after destroying the session
     });
 };
 
@@ -79,18 +97,5 @@ exports.logoutAdmin = (req, res) => {
 //     res.render('admin/loginForm');
 // };
 
-exports.loginAdmin = async (req, res) => {
-    try {
-        let { email, pswd } = req.body;
-        const user = await User.find({ email: email, password: pswd });
-        if (user.length != 0 && user[0].role == "admin") {
-            req.session.username = email;
-            res.redirect('/admin/dashboard');
-        } else {
-            res.send("Invalid User or You are not an Admin!");
-        }
-    } catch (error) {
-        console.log(error);
-    }
-};
+
 

@@ -3,18 +3,18 @@ const app = express();
 const { Course1, getAllCourse } = require('../models/Course1.model');
 const Student1 = require('../models/Student1.model');
 const { Attendance } = require('../models/Attendance.model');
-const { getAllCourses } = require('./courseController');
+const { getAllCourses, getMarksForm } = require('./courseController');
 const expressLayouts = require('express-ejs-layouts');
 const mongoose = require('mongoose');
 const Enrollment = require('../models/Enrollment.model');
 const Student1Model = require('../models/Student1.model');
+const Mark = require('../models/Mark.model');
 
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 
 
 exports.takeAttendance = async (req, res) => {
-    //console.log(req.session);
     try {
         if (!req.session.teacher_email) {
             res.send("Session expired");
@@ -23,7 +23,6 @@ exports.takeAttendance = async (req, res) => {
             courses = await Course1.find({ teacher: req.session.teacher_id });
             if (courses.length === 0) {
                 res.render('course/choose-course', {
-                    page: "Choose-course",
                     errorMessage: "You are not assigned in a course",
                     email: req.session.email,
                     courses: [],
@@ -32,7 +31,6 @@ exports.takeAttendance = async (req, res) => {
                 });
             } else {
                 res.render('course/choose-course', {
-                    page: "choose-course",
                     courses,
                     email: req.session.email,
                     errorMessage: "",
@@ -105,10 +103,8 @@ exports.sliderAttendance = async (req, res) => {
     const { course_id, date } = req.body;
     //const students = await Student1.find();
     const enrolledStudents = await Enrollment.find({ course_id: course_id })
-        .populate('student_id', 'name email')
+        .populate('student_id')
         .exec();
-
-   // console.log(enrolledStudents);
 
     res.render('attendance/attendance-slider', {
         page: "attendance-slider",
@@ -122,14 +118,13 @@ exports.sliderAttendance = async (req, res) => {
 };
 
 exports.showAllCourses = async (req, res) => {
-    console.log(req.session);
+
     const courses = await Course1.find();
-    if (req.session.student_email) {
-        res.render('student/course-list-attendance', { layout: './layouts/student', student_id: req.session.student_id, courses });
+    if (req.params.dashboard == "student-dashboard") {
+        res.render('student/course-list-attendance', { layout: './layouts/student', student_id: req.session.student_id, courses, dashboard: "student-dashboard" });
     }
-    else {
-        // const Layout = './layouts/teacher-dashboard-layout';
-        res.render('student/course-list-attendance', { layout: './layouts/teacher-dashboard-layout', teacher_id: req.session.teacher_id, courses });
+    else if (req.params.dashboard == "teacher-dashboard") {
+        res.render('student/course-list-attendance', { layout: './layouts/teacher-dashboard-layout', teacher_id: req.session.teacher_id, courses, dashboard: "teacher-dashboard" });
     }
 }
 
@@ -154,10 +149,10 @@ exports.showCourseAttendance = async (req, res) => {
                 },
             },
         ]);
-       // console.log(results);
+        // console.log(results);
         const studentIds = results.map(result => result._id);
         const students = await Student1.find({ _id: { $in: studentIds } });
-       
+
         let populatedResults = results.map(result => {
             const student = students.find(student => student._id.equals(result._id));
             return {
@@ -175,7 +170,7 @@ exports.showCourseAttendance = async (req, res) => {
         ]);
 
         const total_class = uniqueDates.length > 0 ? uniqueDates[0].count : 0;
-    
+
         //console.log(populatedResults);
 
 
@@ -196,16 +191,14 @@ exports.showCourseAttendance = async (req, res) => {
                 return newstd;
             }
         });
-        //console.log(output);
 
-    
-        
+        const latestMark = await Mark.find({}).sort({ date: -1 });
 
-        if (req.session.student_email) {
-            res.render('student/course-attendance', { layout: './layouts/student', student_id: req.session.student_id, results: output,total_class });
+        if (req.params.dashboard == "student-dashboard") {
+            res.render('student/course-attendance', { layout: './layouts/student', student_id: req.session.student_id, results: output, total_class, latestMark });
         }
-        else {
-            res.render('student/course-attendance', { layout: './layouts/teacher-dashboard-layout', teacher_id: req.session.teacher_id, results: output , total_class});
+        else if (req.params.dashboard == "teacher-dashboard") {
+            res.render('student/course-attendance', { layout: './layouts/teacher-dashboard-layout', teacher_id: req.session.teacher_id, results: output, total_class, latestMark });
         }
 
     } catch (error) {

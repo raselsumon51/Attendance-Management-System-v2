@@ -5,7 +5,10 @@ const teacherSchema = new mongoose.Schema({
         type: String,
     },
     email: String,
-    password: Number
+    password: {
+        type: Number,
+        default:"123456"
+    }
 });
 
 const Teacher1 = mongoose.model('Teacher1', teacherSchema);
