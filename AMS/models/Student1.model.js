@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const studentSchema = new mongoose.Schema({
-    student_roll: Number,
+    student_id: Number,
     name: String,
     email: {
         type: String,
@@ -11,6 +11,9 @@ const studentSchema = new mongoose.Schema({
     password: Number,
     dept: String,
     semester: String,
+    phone: Number,
+    session: String,
+    address: String,
     image: String,
     // courses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course' }],
     dateCreated: {

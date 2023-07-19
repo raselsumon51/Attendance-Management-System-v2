@@ -1,6 +1,4 @@
-body{
-    background: lightgray;
-}
+
 h3.mb-4.text-center {
     font-family: revert;
 }
@@ -32,20 +30,12 @@ a.right.pull-right {
     font-size: 18px;
 }
 
- body,
- html {
-     height: 100%;
-     width: 100%;
-     display: flex;
-     align-items: center;
-     justify-content: center;
-     flex-direction: column;
- }
-
- .container {
-     max-width: 100%;
- }
-
  .login_style {
      margin: auto;
+ }
+ .login-form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
  }

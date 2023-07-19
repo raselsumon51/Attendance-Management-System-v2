@@ -1,5 +1,5 @@
 const express = require('express');
-const { takeAttendance, insertAttendance, sliderAttendance, showAllCourses, showCourseAttendance } = require('../controllers/attendanceController');
+const { takeAttendance, insertAttendance, sliderAttendance, showAllCourses, showCourseAttendance, getCalender } = require('../controllers/attendanceController');
 const teacherAuthMiddleware = require('../middlewares/teacherAuthMiddleware');
 const app = express();
 const router = express.Router();
@@ -9,6 +9,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 router.get('/course-id/:course_id/:dashboard', teacherAuthMiddleware,showCourseAttendance);
+router.get('/course-id/:course_id/calender', teacherAuthMiddleware,getCalender);
 router.get('/all-courses/:dashboard', showAllCourses);
 
 // Route: /teacher/take

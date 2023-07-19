@@ -8,7 +8,7 @@
           <tr>
             <th>Course Name</th>
             <th>Course Code</th>
-            <th>Teacher Email</th>
+            <th>Teacher Name</th>
           </tr>
         </thead>
         <tbody>
@@ -16,7 +16,7 @@
           <tr>
             <td><%= course.name %></td>
             <td><%= course.code %></td>
-            <td><%= course.teacher ?. email || 'N/A' %></td>
+            <td><%= course.teacher ?. name || 'N/A' %></td>
           </tr>
           <% }); %>
         </tbody>

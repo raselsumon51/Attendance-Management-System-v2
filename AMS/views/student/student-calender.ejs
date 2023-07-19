@@ -1,0 +1,83 @@
+<style>
+  .present {
+    background-color: green;
+  }
+
+  .absent {
+    background-color: red;
+  }
+
+  /* Reset default margin and padding for the page */
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Center align the calendar */
+
+  h3 {
+    margin: 10px;
+    text-align: center;
+  }
+
+  table {
+    margin-left: 11rem;
+    border-collapse: collapse;
+    width: 400px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  th,
+  td {
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #ccc;
+  }
+
+  th {
+    background-color: #f2f2f2;
+  }
+
+  td.present {
+    background-color: green;
+  }
+
+  td.absent {
+    background-color: red;
+  }
+</style>
+
+<body>
+  <h3>Calendar</h3>
+  <hr>
+  <table class="mt-2">
+    <thead>
+      <tr>
+        <th>Sunday</th>
+        <th>Monday</th>
+        <th>Tuesday</th>
+        <th>Wednesday</th>
+        <th>Thursday</th>
+        <th>Friday</th>
+        <th>Saturday</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for (let week=0; week < 5; week++) { %>
+        <tr>
+          <% for (let day=0; day < 7; day++) { %>
+            <% const index=week * 7 + day; %>
+              <% const date=dates[index]; %>
+                <% const isPresent=date && date.attendance==='present' ; %>
+                  <% const isAbsent=date && date.attendance==='absent' ; %>
+                    <td class="<%= isPresent ? 'present' : (isAbsent ? 'absent' : '') %>">
+                      <%= date ? date.date : '' %>
+                    </td>
+                    <% } %>
+        </tr>
+        <% } %>
+    </tbody>
+  </table>
+</body>

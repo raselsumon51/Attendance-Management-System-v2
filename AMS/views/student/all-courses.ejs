@@ -1,22 +1,21 @@
 <!-- courses.ejs -->
 
-<h4 class="mx-3">All Courses</h4>
+<h3 class="m-2">All Courses</h3>
 
-<table class="table">
+<table class="table fs-5 p-4 table-hover">
   <thead>
     <tr>
       <th>Course Name</th>
-      <th>Course Code</th>
-      <th>Teacher</th>
-      <th>Actions</th>
+      <th class="text-center">Course Code</th>
+      <th class="text-center">Enrollment</th>
     </tr>
   </thead>
   <tbody>
     <% courses.forEach(function(course) { %>
       <tr>
-        <td><%= course.name %></td>
-        <td><%= course.code %></td>
-        <td>
+        <td ><%= course.name %></td>
+        <td class="text-center"><%= course.code %></td>
+        <td class="text-center">
           <form action="/enroll" method="post">
             <input type="hidden" name="courseId" value="<%= course._id %>">
             <!-- <button type="submit" class="btn btn-primary">Enroll</button> -->

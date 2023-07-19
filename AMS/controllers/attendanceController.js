@@ -118,7 +118,7 @@ exports.sliderAttendance = async (req, res) => {
 };
 
 exports.showAllCourses = async (req, res) => {
-
+    console.log(req.params.dashboard)
     const courses = await Course1.find();
     if (req.params.dashboard == "student-dashboard") {
         res.render('student/course-list-attendance', { layout: './layouts/student', student_id: req.session.student_id, courses, dashboard: "student-dashboard" });
@@ -193,15 +193,50 @@ exports.showCourseAttendance = async (req, res) => {
         });
 
         const latestMark = await Mark.find({}).sort({ date: -1 });
+        //my marks
+        const output1 = output.filter(obj => obj._id.toString() === req.session.student_id.toString());
+        const course_name = await Course1.findOne({_id:course_id});
+
 
         if (req.params.dashboard == "student-dashboard") {
-            res.render('student/course-attendance', { layout: './layouts/student', student_id: req.session.student_id, results: output, total_class, latestMark });
+            res.render('student/course-attendance', { layout: './layouts/student', student_id: req.session.student_id, results: output1, total_class, latestMark ,course_name:course_name.name,course_id});
         }
         else if (req.params.dashboard == "teacher-dashboard") {
-            res.render('student/course-attendance', { layout: './layouts/teacher-dashboard-layout', teacher_id: req.session.teacher_id, results: output, total_class, latestMark });
+            res.render('student/course-attendance', { layout: './layouts/teacher-dashboard-layout', teacher_id: req.session.teacher_id, results: output1, total_class, latestMark ,course_name:course_name.name,course_id});
         }
 
     } catch (error) {
         console.error('Error executing the query:', error);
     }
 };
+
+//get calender
+exports.getCalender = async (req, res) => {
+    // Generate sample data for student attendance
+    console.log("test1");
+    const attendanceData = {
+        '2023-07-02': 'present',
+        '2023-07-04': 'absent',
+        '2023-07-17': 'present',
+        '2023-07-20': 'absent'
+    };
+
+    // Generate an array of date objects for the current month
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth();
+    const firstDay = new Date(currentYear, currentMonth, 1);
+    const lastDay = new Date(currentYear, currentMonth + 1, 0);
+    const dates = [];
+
+    for (let d = new Date(firstDay); d <= lastDay; d.setDate(d.getDate() + 1)) {
+        const dateObj = {
+        date: d.getDate(),
+        formattedDate: d.toISOString().split('T')[0],
+        attendance: attendanceData[d.toISOString().split('T')[0]] || ''
+        };
+        dates.push(dateObj);
+    }
+    const course_id = req.params.course_id;
+    res.render('student/student-calender', {dates, layout: './layouts/student', student_id: req.session.student_id});
+}

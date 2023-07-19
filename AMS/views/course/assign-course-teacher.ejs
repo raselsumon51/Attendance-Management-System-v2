@@ -21,7 +21,7 @@
             <select name="teacher_id" class="form-select">
               <% teachers.forEach(teacher => { %>
               <option value=<%= teacher._id %>>
-                <%= teacher.email %>
+                <%= teacher.name %>
               </option>
               <% }); %>
             </select>

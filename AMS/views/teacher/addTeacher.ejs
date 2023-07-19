@@ -5,6 +5,11 @@
         <h4 class="text-center mb-4">Add Teacher using Form</h4>
         <form action="/teacher/add" method="post">
           <div class="mb-3">
+            <label for="teacher_name" class="form-label">Teacher Name</label>
+            <input type="text" class="form-control" id="teacher_name" placeholder="Enter name" name="teacher_name"
+              required>
+          </div>
+          <div class="mb-3">
             <label for="teacher_email" class="form-label">Teacher Email</label>
             <input type="email" class="form-control" id="teacher_email" placeholder="Enter email" name="teacher_email"
               required>

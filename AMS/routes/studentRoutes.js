@@ -1,5 +1,5 @@
 const express = require('express');
-const { getRegistrationPage, postRegistrationData, saveEnrollData, editStudent, updateStudent, getAllStudents, getLoginForm, loginStudent, logoutStudent, getDashboard, profile, postCourseID, store_form_info, uploadStudentInfo } = require('../controllers/students.controller');
+const { getRegistrationPage, postRegistrationData, saveEnrollData, editStudent, updateStudent, getAllStudents, getLoginForm, loginStudent, logoutStudent, getDashboard, profile, calender } = require('../controllers/students.controller');
 const app = express();
 const router = express.Router();
 const studentAuthMiddleware = require('../middlewares/studentAuthMiddleware');
@@ -73,17 +73,13 @@ router.post('/login', loginStudent);
 router.get('/logout', logoutStudent);
 router.get('/dashboard', getDashboard);
 
-router.get('/add', getRegistrationPage);
-router.post('/add', postCourseID);
-router.post('/store-form-data', store_form_info);
-
+router.get('/registration', getRegistrationPage)
 router.post('/register', postRegistrationData)
 router.get('/enroll', saveEnrollData)
 router.get('/:id/edit', studentAuthMiddleware, editStudent)
-router.post('/:id/update', studentAuthMiddleware, updateStudent)
 router.get('/:id/profile', studentAuthMiddleware, profile)
-
-router.post('/upload', uploadStudentInfo);
+// router.get('/:id/calender', studentAuthMiddleware, calender)
+router.post('/:id/update', studentAuthMiddleware, updateStudent)
 
 
 module.exports = router;

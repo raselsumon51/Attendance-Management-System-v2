@@ -108,6 +108,7 @@ exports.createNewTeacher = async (req, res) => {
         }
 
         const newTeacher = new Teacher1({
+            name: req.body.teacher_name,
             email: req.body.teacher_email,
             password: req.body.teacher_pass,
         });

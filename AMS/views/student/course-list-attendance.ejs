@@ -1,17 +1,23 @@
+<style>
+  tbody tr td a:hover{
+    color: red !important;
+  }
+</style>
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-8">
-      <table class="table table-striped text-center">
+      <table class="table text-center table-hover">
         <thead>
           <tr>
-            <td class="text-center fs-3 mb-2">Course Name</td>
+            <h3 class="text-center fs-4 mb-2 mt-2 ">Course Name</h3>
           </tr>
+          <hr>
         </thead>
         <tbody>
           <% courses.forEach(course=> { %>
             <tr>
               <td>
-                <a href="/attendance/course-id/<%= course._id %>/<%= dashboard %>" class="btn btn-link" style="text-decoration: none;">
+                <a href="/attendance/course-id/<%= course._id %>/<%= dashboard %>" class="btn btn-link" style="text-decoration: none; font-size: 18px;">
                   <%= course.name %>
                 </a>
               </td>

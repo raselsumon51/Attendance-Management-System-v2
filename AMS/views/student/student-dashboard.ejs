@@ -1,8 +1,5 @@
-<h1>student Dashboard</h1>
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -36,20 +33,6 @@
           <li class="my-2 py-2 bg-info text-center fs-4"><a href="/attendance/all-courses">Attendance</a></li>
           <li class="my-2 py-2 bg-info text-center fs-3"><a href="/course/setmarks">Enrolled Courses</a></li>
         </ul>
-      </div>
-      <div class="col-8 bg-warning">
-        <% if (page=='course-all') { %>
-        <%- include('../student/all-courses') %>
-
-        <% } else if(page==='attendance_take' ) { %>
-        <%- include('../attendance/take_attendance') %>
-
-        <% } else if(page==='showCourses' ) { %>
-        <%- include('../course/showCourses') %>
-
-        <% } else { %>
-        <h5>Hii!</h5>
-        <% } %>
       </div>
     </div>
   </div>

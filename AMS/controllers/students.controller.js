@@ -13,29 +13,7 @@ const Enrollment = require('../models/Enrollment.model');
 const Student1 = require('../models/Student1.model');
 
 exports.getRegistrationPage = async (req, res) => {
-    try {
-        courses = await Course1.find({ teacher: req.session.teacher_id });
-        if (courses.length === 0) {
-            res.render('teacher/teacher-courses', {
-                errorMessage: "You are not assigned in a course",
-                email: req.session.email,
-                courses: [],
-                teacher_id: req.session.teacher_id,
-                layout: './layouts/teacher-dashboard-layout',
-            });
-        } else {
-            res.render('teacher/teacher-courses', {
-                courses,
-                email: req.session.email,
-                errorMessage: "",
-                teacher_id: req.session.teacher_id,
-                layout: './layouts/teacher-dashboard-layout'
-            });
-        }
-    } catch (error) {
-        console.log(error);
-    }
-    //res.render('student/student-registration', { title: 'Home Page', message: "", layout: './layouts/teacher-dashboard-layout', teacher_id: req.session.teacher_id });
+    res.render('student/student-registration', { title: 'Home Page', message: "", layout: false });
 };
 
 exports.postCourseID = async (req, res) => {
@@ -137,9 +115,9 @@ exports.getDashboard = (req, res) => {
 
 
 exports.postRegistrationData = async (req, res) => {
-    const { student_id, name, email, password } = req.body
+    const { student_id, name, email, phone, session, password, address } = req.body
 
-    if (!student_id || !name || !email || !password) {
+    if (!student_id || !name || !session || !email || !password || !phone || !address) {
         return res.status(400).json({ message: 'Please provide all required fields' })
     }
 
@@ -152,16 +130,19 @@ exports.postRegistrationData = async (req, res) => {
             student_id,
             name,
             email,
-            password
+            phone,
+            session,
+            password,
+            address
         })
         newStudent.save()
-            .then(student => {
-                res.render('student/student-registration', { message: 'Registration Successful!', layout: './layouts/teacher-dashboard-layout', teacher_id: req.session.teacher_id })
-            })
-            .catch(err => {
-                console.error(err)
-                res.status(500).json({ message: 'Error saving student record' })
-            })
+        .then(student => {
+            res.render('student/student-registration', { message: 'Registration Successful!', layout: false, teacher_id: req.session.teacher_id })
+        })
+        .catch(err => {
+            console.error(err)
+            res.status(500).json({ message: 'Error saving student record' })
+        })
     }
     // res.render('student/student-index', { pageTitle: 'Home Page', layout: './layouts/student', student_email: "rr" });
 };
@@ -201,6 +182,20 @@ exports.editStudent = async (req, res) => {
     }
 };
 
+exports.profile = async (req, res) => {
+    try {
+        const student = await Student1.findOne({ _id: req.params.id });
+        if (!student) {
+            res.status(404).send('Student not found');
+            return;
+        }
+        // Render the update form with the student data
+        res.render('student/student-profile', { student, layout: './layouts/student', student_id: req.params.id });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Internal server error');
+    }
+};
 
 exports.updateStudent = async (req, res) => {
     try {
@@ -219,25 +214,14 @@ exports.updateStudent = async (req, res) => {
 
         student.student_id = req.body.student_id;
         student.name = req.body.name;
+        student.email = req.body.email;
+        student.address = req.body.address;
+        student.phone = req.body.phone;
+        student.session = req.body.session;
         student.image = imageFile.name;
         await student.save();
         // Redirect to the student detail page
         res.send("change saved");
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Internal server error');
-    }
-};
-
-exports.profile = async (req, res) => {
-    try {
-        const student = await Student1.findOne({ _id: req.params.id });
-        if (!student) {
-            res.status(404).send('Student not found');
-            return;
-        }
-        // Render the update form with the student data
-        res.render('student/student-profile', { student, layout: './layouts/student', student_id: req.params.id });
     } catch (err) {
         console.error(err);
         res.status(500).send('Internal server error');

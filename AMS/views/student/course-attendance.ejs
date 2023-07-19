@@ -1,58 +1,88 @@
-<h4 class="my-4 text-center">Attendance</h4>
-<p>Total class <%= total_class %>
-</p>
-<table class="table">
-  <thead>
-    <tr>
-      <th class="text-center">Student Name</th>
-      <th class="text-center">Attendance Count</th>
-      <th class="text-center">Attendance Percentage</th>
-      <th class="text-center">Marks</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% results.forEach(function(result) { %>
-    <tr>
-      <td class="text-center">
-        <%= result.name %>
-      </td>
-      <td class="text-center">
-        <%= result.count %>
-      </td>
-      <td class="text-center">
-        <% if (isNaN(result.count) || isNaN(total_class) || total_class===0) { %>
-        0
-        <% } else { %>
-        <%= ((result.count / total_class) * 100).toFixed(2) %> %
-        <% } %>
-      </td>
-      <td class="text-center">
-        <%= calculateGrade((result.count / total_class) * 100) %>
-      </td>
-    </tr>
-    <% }); %>
-  </tbody>
-</table>
+<div class="mt-4 p-4">
+  <div class="container d-flex justify-content-center align-items-center">
+    <div class="row bg-white col-8 rounded-3">
+      <div class="text-center">
+          <h2>Attendance</h2>
+      </div>
+      <hr>
+      <div class="d-flex justify-content-center align-items-top p-2">
+        <div class="col-md-12">
+          <table class="table table-bordered">
+            <tr>
+              <th>Course Name</th>
+              <td><%= course_name %></td>
+            </tr>
+            <tr>
+              <th>Student Name</th>
+              <% results.forEach(function(result) { %>
+              <td><%= result.name %></td>
+              <% }); %>
+            </tr>
+            <tr>
+              <th>Total Class</th>
+              <td><%= total_class %></td>
+            </tr>
+            <tr>
+              <th>Present</th>
+              <% results.forEach(function(result) { %>
+                <td><%= result.count %></td>
+              <% }); %>
+            </tr>
+            <tr>
+              <th>Absent</th>
+              <% results.forEach(function(result) { %>
+                <td><%= total_class - result.count %></td>
+              <% }); %>
+            </tr>
+            <tr>
+              <th>Percentage</th>
+              <% results.forEach(function(result) { %>
+              <td>
+                <% if (isNaN(result.count) || isNaN(total_class) || total_class===0) { %>
+                  0
+                   <% } else { %>
+                   <%= ((result.count / total_class) * 100).toFixed(2) %> %
+                   <% } %>
+              </td>
+              <% }); %>
+            </tr>
+            <tr>
+              <th>Marks</th>
+              <% results.forEach(function(result) { %>
+                <td><%= calculateGrade((result.count / total_class) * 100) %></td>
+              <% }); %>
+            </tr>
+            <tr>
+              <th>Calender view</th>
+              <td><a href="/attendance/course-id/<%= course_id %>/calender" class="btn btn-primary">Show</a></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <% function calculateGrade(percentage) { %>
 <% if (isNaN(percentage)) { %>
 0
 <% } else if (percentage>= 95) { %>
-<%= latestMark[0].marks_95_100 %>
+8
 <% } else if (percentage>= 90) { %>
-<%= latestMark[0].marks_90_94 %>
+7
 <% } else if (percentage>= 85) { %>
-<%= latestMark[0].marks_85_89 %>
+6
 <% } else if (percentage>= 80) { %>
-<%= latestMark[0].marks_80_84 %>
+5
 <% } else if (percentage>= 75) { %>
-<%= latestMark[0].marks_75_79 %>
+4
 <% } else if (percentage>= 70) { %>
-<%= latestMark[0].marks_70_74 %>
+3
 <% } else if (percentage>= 65) { %>
-<%= latestMark[0].marks_65_69 %>
+2
 <% } else if (percentage>= 60) { %>
-<%= latestMark[0].marks_60_64 %>
+1
 <% } else { %>
 0
 <% } %>
